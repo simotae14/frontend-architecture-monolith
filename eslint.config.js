@@ -27,9 +27,15 @@ export default tseslint.config(
       },
       "boundaries/elements": [
         {
-          type: "modules",
-          pattern: "src/modules/**/*",
+          type: "authentication",
+          pattern: "src/modules/*/**/*",
           mode: "full",
+        },
+        {
+          type: "modules",
+          pattern: "src/modules/*/**/*",
+          mode: "full",
+          capture: ["moduleName"]
         },
         {
           type: "shared",
@@ -45,6 +51,23 @@ export default tseslint.config(
         default: "disallow",
         rules: [
           {
+            allow: {
+              dependency: {
+                kind: 'type',
+              }
+            }
+          },
+          {
+            from: {
+              type: "authentication",
+            },
+            allow: {
+              to: {
+                type: ["authentication", "shared"],
+              }
+            }
+          },
+          {
             from: {
               type: "shared",
             },
@@ -58,11 +81,20 @@ export default tseslint.config(
             from: {
               type: "modules",
             },
-            allow: {
-              to: {
-                type: ["modules", "shared"],
+            allow: [
+              { to: {
+                  type: ["shared", "authentication"],
+                },
+              },
+              {
+                to: {
+                  type: ["modules"],
+                  captured: {
+                    moduleName: "{{from.captured.moduleName}}"
+                  }
+                }
               }
-            }
+            ]
           }
         ],
       }],
