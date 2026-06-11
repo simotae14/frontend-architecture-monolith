@@ -11,7 +11,10 @@ module.exports = {
       },
       to: {
         path: "^src/modules/(?!authentication/)[^/]+/",
-        pathNot: "^src/modules/$1/",
+        pathNot: [
+          "^src/modules/$1/",
+          "^src/modules/orders/components/order-line-items-table\\.tsx?$",
+        ],
       },
     },
     {
@@ -24,6 +27,7 @@ module.exports = {
       },
       to: {
         path: "^src/modules/(?!authentication/)[^/]+/",
+        pathNot: "^src/modules/users/lib/permissions\\.tsx?$",
       },
     },
     //   {
